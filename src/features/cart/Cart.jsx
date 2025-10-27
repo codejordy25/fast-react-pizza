@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 const fakeCart = [
@@ -27,6 +26,7 @@ const fakeCart = [
 
 function Cart() {
   const cart = fakeCart;
+  console.log(cart);
 
   return (
     <div>

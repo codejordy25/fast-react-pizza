@@ -1,5 +1,5 @@
 // Test ID: IIDSAT
-import React from "react";
+
 import {
   calcMinutesLeft,
   formatCurrency,
@@ -53,6 +53,9 @@ function Order() {
     cart,
   } = order;
   const deliveryIn = calcMinutesLeft(estimatedDelivery);
+
+  console.log(cart);
+  console.log(id);
 
   return (
     <div>
