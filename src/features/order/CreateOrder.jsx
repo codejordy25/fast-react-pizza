@@ -1,5 +1,8 @@
 // import { useState } from "react";
 
+import { Form, redirect } from "react-router-dom";
+import { createOrder } from "../../services/apiRestaurant";
+
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
@@ -39,7 +42,9 @@ function CreateOrder() {
     <div>
       <h2>Ready to order? Lets go!</h2>
 
-      <form>
+      {/* <form method="POST" action="order/new">  C'est pas nécessaire
+      parcequ'il va react Routeur va l'associé à l'action*/}
+      <Form method="POST">
         <div>
           <label>First Name</label>
           <input type="text" name="customer" required />
@@ -71,11 +76,32 @@ function CreateOrder() {
         </div>
 
         <div>
+          <input type="hidden" name="cart" value={JSON.stringify(cart)} />
           <button>Order now</button>
         </div>
-      </form>
+      </Form>
     </div>
   );
 }
+
+export async function action({ request }) {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData); // Convertir en objet..
+  console.log("Form data:", data);
+
+  const order = {
+    ...data,
+    cart: JSON.parse(data.cart), // Convertir le cart de string en objet
+    priority: data.priority === "on", // Convertir le champ checkbox en booléen
+  };
+  console.log("Order to create:", order);
+
+  //Await parceque dans l'api il renvoie un objet(promesse), c'est que nous allons utiliser dans la route
+  const newOrder = await createOrder(order);
+
+  return redirect(`/order/${newOrder.id}`);
+}
+
+// Pour finir je dois connecter l'action à la route dans App.jsx
 
 export default CreateOrder;
