@@ -10,7 +10,7 @@ function CartOverview() {
         <span>$23.45</span>
       </p>
   
-    <Link  className="" to="/cart"  >Open cart &rarr;</Link>
+    <Link  className="" to="/cart" >Open cart &rarr;</Link>
    
     </div>
   );
